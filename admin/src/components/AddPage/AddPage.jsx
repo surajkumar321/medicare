@@ -250,7 +250,7 @@ export default function DoctorDetailPage() {
 
       const API_BASE = import.meta.env.VITE_API_URL;
 
-      const res = await fetch(`${API_BASE}/doctors`, {
+      const res = await fetch(`${API_BASE}/api/doctors`, {
         method: "POST",
         body: fd,
       });
