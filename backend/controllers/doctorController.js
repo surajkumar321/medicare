@@ -81,25 +81,27 @@ export async function createDoctor(req, res) {
     }
 
     const schedule = parseScheduleInput(body.schedule);
+const feeValue = parseFloat(body.fee);
+const ratingValue = parseFloat(body.rating);
 
-    const doc = new Doctor({
-      email: emailLC,
-      password: body.password,
-      name: body.name,
-      specialization: body.specialization || "",
-      imageUrl,
-      imagePublicId,
-      availability: body.availability || "Available",
-      experience: body.experience || "",
-      qualifications: body.qualifications || "",
-      location: body.location || "",
-      about: body.about || "",
-      fee: body.fee !== undefined ? Number(body.fee) : 0,
-      schedule,
-      success: body.success || "",
-      patients: body.patients || "",
-      rating: body.rating !== undefined ? Number(body.rating) : 0,
-    });
+const doc = new Doctor({
+  email: emailLC,
+  password: body.password,
+  name: body.name,
+  specialization: body.specialization || "",
+  imageUrl,
+  imagePublicId,
+  availability: body.availability || "Available",
+  experience: body.experience || "",
+  qualifications: body.qualifications || "",
+  location: body.location || "",
+  about: body.about || "",
+  fee: isNaN(feeValue) ? 0 : feeValue,
+  schedule,
+  success: body.success || "",
+  patients: body.patients || "",
+  rating: isNaN(ratingValue) ? 0 : ratingValue,
+});
 
     await doc.save();
 
