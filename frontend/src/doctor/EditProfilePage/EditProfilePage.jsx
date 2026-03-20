@@ -76,7 +76,7 @@ export default function EditProfilePage({ apiBase }) {
     async function fetchDoctor() {
       try {
         setLoading(true);
-        const res = await fetch(`${API_BASE}/${id}`);
+         const res = await fetch(`${API_BASE}/api/doctors/${id}`);
         const json = await res.json();
         if (!res.ok) throw new Error(json?.message || "Failed to fetch doctor");
         const d = json.data || json || {};
@@ -247,7 +247,7 @@ export default function EditProfilePage({ apiBase }) {
       const token = localStorage.getItem(STORAGE_KEY);
       const headers = token ? { Authorization: `Bearer ${token}` } : {};
 
-      const res = await fetch(`${API_BASE}/${id}`, {
+      const res = await fetch(`${API_BASE}/api/doctors/${id}`, {
         method: "PUT",
         headers,
         body: form,
