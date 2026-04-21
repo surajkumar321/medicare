@@ -256,7 +256,6 @@
 // export default Footer;
 
 
-
 import React from "react";
 import { Link } from "react-router-dom";
 import {
@@ -269,6 +268,7 @@ import {
   Instagram,
   Linkedin,
   Youtube,
+  ExternalLink
 } from "lucide-react";
 import logo from "../../assets/logo.png";
 
@@ -290,29 +290,27 @@ const Footer = () => {
     "X-Ray Scan",
   ];
 
-  const socialLinks = [
-    { icon: Facebook, link: "#" },
-    { icon: Twitter, link: "#" },
-    { icon: Instagram, link: "#" },
-    { icon: Linkedin, link: "#" },
-    { icon: Youtube, link: "#" },
-  ];
-
   return (
     <footer className="relative mt-24 text-white">
 
-      {/* Soft Luxury Gradient Background */}
+      {/* Background */}
       <div className="absolute inset-0 bg-gradient-to-br from-[#0f2f28] via-[#0d3b33] to-[#071f1a]"></div>
-
-      {/* Soft Glow Overlay */}
-      <div className="absolute inset-0 bg-[radial-gradient(circle_at_top_right,_rgba(16,185,129,0.15),_transparent_60%)]"></div>
 
       <div className="relative max-w-7xl mx-auto px-6 py-20 grid md:grid-cols-3 gap-16">
 
         {/* LEFT SECTION */}
         <div>
           <div className="flex items-center gap-4 mb-6">
-            <img src={logo} alt="MediCare Logo" className="w-14 h-14" />
+
+            {/* 🔗 Clickable Logo */}
+            <a 
+              href="https://medicare-pmt7.vercel.app/" 
+              target="_blank" 
+              rel="noopener noreferrer"
+            >
+              <img src={logo} alt="MediCare Logo" className="w-14 h-14" />
+            </a>
+
             <div>
               <h2 className="text-3xl font-bold tracking-wide">
                 MediCare
@@ -343,26 +341,19 @@ const Footer = () => {
             </div>
           </div>
 
-          {/* Social Icons */}
-          <div className="flex gap-4 mt-8">
-            {socialLinks.map((item, index) => {
-              const Icon = item.icon;
-              return (
-                <a
-                  key={index}
-                  href={item.link}
-                  target="_blank"
-                  rel="noopener noreferrer"
-                  className="w-9 h-9 flex items-center justify-center 
-                  bg-white/10 backdrop-blur-sm rounded-full 
-                  hover:bg-emerald-500 hover:shadow-[0_0_15px_rgba(16,185,129,0.6)]
-                  transition duration-300"
-                >
-                  <Icon size={16} />
-                </a>
-              );
-            })}
+          {/* 🔗 Live Project Button */}
+          <div className="mt-8">
+            <a
+              href="https://medicare-pmt7.vercel.app/"
+              target="_blank"
+              rel="noopener noreferrer"
+              className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition"
+            >
+              <ExternalLink size={16} />
+              View Live Project
+            </a>
           </div>
+
         </div>
 
         {/* QUICK LINKS */}
@@ -390,7 +381,7 @@ const Footer = () => {
           </ul>
         </div>
 
-        {/* OUR SERVICES */}
+        {/* SERVICES */}
         <div>
           <h3 className="text-2xl font-semibold text-emerald-400 mb-8">
             Our Services
@@ -413,11 +404,11 @@ const Footer = () => {
 
       </div>
 
-      {/* Bottom Section */}
-      <div className="relative border-t border-white/10 py-6 text-center text-sm text-gray-400 backdrop-blur-sm">
+      {/* Bottom */}
+      <div className="relative border-t border-white/10 py-6 text-center text-sm text-gray-400">
         © {currentYear} MediCare Healthcare. All Rights Reserved.
         <div className="mt-2">
-          Designed by  {"SURAJ "}
+          Designed by SURAJ
         </div>
       </div>
 
