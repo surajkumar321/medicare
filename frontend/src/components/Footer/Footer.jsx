@@ -350,7 +350,7 @@ const Footer = () => {
               className="inline-flex items-center gap-2 px-5 py-2 bg-emerald-500 text-white rounded-full hover:bg-emerald-600 transition"
             >
               <ExternalLink size={16} />
-              View Live Project
+              Go to Medicare Admin Panel
             </a>
           </div>
 
