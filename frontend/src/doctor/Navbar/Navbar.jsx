@@ -2,7 +2,7 @@
 
 import React, { useState, useMemo, useEffect } from "react";
 import { NavLink, useParams, useLocation, useNavigate } from "react-router-dom";
-import { Home, Calendar, Edit, Menu, X, LogOut, ExternalLink } from "lucide-react";
+import { Home, Calendar, Edit, Menu, X, LogOut } from "lucide-react";
 import logo from "../../assets/logo.png";
 
 export default function Navbar() {
@@ -39,6 +39,7 @@ export default function Navbar() {
   ];
 
   const handleLogout = () => {
+    // TODO: clear auth token
     navigate("/doctor-admin/login");
   };
 
@@ -56,20 +57,13 @@ export default function Navbar() {
       >
         <div className="max-w-7xl mx-auto px-4 lg:px-6 h-20 flex items-center justify-between">
 
-          {/* Brand + Clickable Logo */}
+          {/* Brand */}
           <div className="flex items-center gap-3">
-            <a 
-              href="https://medicare-pmt7.vercel.app/" 
-              target="_blank" 
-              rel="noopener noreferrer"
-            >
-              <img
-                src={logo}
-                alt="Logo"
-                className="w-12 h-12 object-contain"
-              />
-            </a>
-
+            <img
+              src={logo}
+              alt="Logo"
+              className="w-12 h-12 object-contain"
+            />
             <div>
               <div className="text-xl font-bold text-emerald-700 tracking-wide">
                 MediCare
@@ -100,18 +94,6 @@ export default function Navbar() {
               </NavLink>
             ))}
 
-            {/* 🔗 Live Site Button */}
-            <a
-              href="https://medicare-pmt7.vercel.app/"
-              target="_blank"
-              rel="noopener noreferrer"
-              className="flex items-center gap-2 px-4 py-2 text-sm rounded-full bg-blue-500 text-white hover:bg-blue-600 transition"
-            >
-              <ExternalLink size={16} />
-              Live Site
-            </a>
-
-            {/* Logout */}
             <button
               onClick={handleLogout}
               className="flex items-center gap-2 px-4 py-2 text-sm rounded-full bg-red-500 text-white hover:bg-red-600 transition"
@@ -160,18 +142,6 @@ export default function Navbar() {
             </NavLink>
           ))}
 
-          {/* 🔗 Mobile Live Site */}
-          <a
-            href="https://medicare-pmt7.vercel.app/"
-            target="_blank"
-            rel="noopener noreferrer"
-            className="flex items-center gap-3 px-4 py-3 rounded-lg text-sm bg-blue-500 text-white hover:bg-blue-600 transition"
-          >
-            <ExternalLink size={18} />
-            Live Site
-          </a>
-
-          {/* Logout */}
           <button
             onClick={() => {
               setOpen(false);
