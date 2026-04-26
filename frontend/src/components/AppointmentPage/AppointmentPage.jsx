@@ -159,12 +159,14 @@ export default function AppointmentPage() {
   const navigate = useNavigate();
 
   const handleJoin = (roomId) => {
-    if (!roomId) {
-      toast.error("Video session not available");
-      return;
-    }
-    navigate(`/video-call/${roomId}`);
-  };
+  if (!roomId) {
+    toast.error("Room not found");
+    return;
+  }
+
+  console.log("Joining room:", roomId);
+  navigate(`/video-call/${roomId}`);
+};
   // ✅ ADD END
 
   const [loadingDoctors, setLoadingDoctors] = useState(false);
@@ -561,7 +563,7 @@ export default function AppointmentPage() {
               {/* ✅ JOIN CALL BUTTON ADD */}
               <button
                 // ✅ NEW
-                onClick={() => handleJoin(item.videoSessionId)}
+                onClick={() => handleJoin(item.videoSessionId || item._id)}
                 style={{
                   marginTop: "10px",
                   padding: "8px 12px",
