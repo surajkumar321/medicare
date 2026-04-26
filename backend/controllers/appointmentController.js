@@ -211,7 +211,7 @@ export const createAppointment = async (req, res) => {
     const doctorImage = { url: doctorImageUrl, publicId: doctorImagePublicId };
 
     // 🔥 NEW (VIDEO CALL ID)
-    const videoSessionId = `medicare-${doctorId}-${Date.now()}`;
+    const videoSessionId = `doctor-${doctorId}`;
 
     const base = {
       doctorId: String(doctor._id || doctorId),

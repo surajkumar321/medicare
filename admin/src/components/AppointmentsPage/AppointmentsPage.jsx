@@ -389,6 +389,27 @@ export default function AppointmentsPage() {
                     </div>
 
                     <div className="flex items-center gap-2">
+
+                      {/* ✅ ADD THIS */}
+  <button
+    onClick={() => {
+      if (!a.raw.videoSessionId) {
+        alert("Room not ready");
+        return;
+      }
+      window.open(`/video-call/${a.raw.videoSessionId}`, "_blank");
+    }}
+    style={{
+      padding: "6px 10px",
+      background: "#4CAF50",
+      color: "#fff",
+      border: "none",
+      borderRadius: "6px",
+      cursor: "pointer",
+    }}
+  >
+    Start Call
+  </button>
                       {isAdmin && (
                         <button
                           onClick={() => adminCancelAppointment(a.id)}
