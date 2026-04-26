@@ -170,7 +170,7 @@ export const createAppointment = async (req, res) => {
       });
     }
 
-    // Fetch doctor as source-of-truth
+    // Fetch doctor
     let doctor = null;
     try {
       doctor = await Doctor.findById(doctorId).lean();
@@ -179,11 +179,15 @@ export const createAppointment = async (req, res) => {
     }
     if (!doctor) return res.status(404).json({ success: false, message: "Doctor not found" });
 
-    // Resolve owner, names, images, etc.
+    // Resolve data
     let resolvedOwner = ownerFromBody || doctor.owner || null;
     if (!resolvedOwner) resolvedOwner = MAJOR_ADMIN_ID || String(doctorId);
 
-    const doctorName = (doctor.name && String(doctor.name).trim()) || (doctorNameFromBody && String(doctorNameFromBody).trim()) || "";
+    const doctorName =
+      (doctor.name && String(doctor.name).trim()) ||
+      (doctorNameFromBody && String(doctorNameFromBody).trim()) ||
+      "";
+
     const speciality =
       (doctor.specialization && String(doctor.specialization).trim()) ||
       (doctor.speciality && String(doctor.speciality).trim()) ||
@@ -206,6 +210,9 @@ export const createAppointment = async (req, res) => {
 
     const doctorImage = { url: doctorImageUrl, publicId: doctorImagePublicId };
 
+    // 🔥 NEW (VIDEO CALL ID)
+    const videoSessionId = `medicare-${doctorId}-${Date.now()}`;
+
     const base = {
       doctorId: String(doctor._id || doctorId),
       doctorName,
@@ -219,10 +226,18 @@ export const createAppointment = async (req, res) => {
       time: String(time),
       fees: numericFee,
       status: "Pending",
-      payment: { method: paymentMethod === "Cash" ? "Cash" : "Online", status: "Pending", amount: numericFee },
+      payment: {
+        method: paymentMethod === "Cash" ? "Cash" : "Online",
+        status: "Pending",
+        amount: numericFee,
+      },
       notes: notes || "",
       createdBy: clerkUserId,
       owner: resolvedOwner,
+
+      // ✅ ADDED (SAFE)
+      videoSessionId,
+
       sessionId: null,
     };
 
@@ -247,26 +262,29 @@ export const createAppointment = async (req, res) => {
       return res.status(201).json({ success: true, appointment: created, checkoutUrl: null });
     }
 
-    // Online: Stripe
+    // Online (Stripe disabled)
     if (!stripe) {
-  const created = await Appointment.create({
-    ...base,
-    status: "Confirmed",
-    payment: { method: "Online", status: "Paid", amount: numericFee },
-    paidAt: new Date(),
-  });
+      const created = await Appointment.create({
+        ...base,
+        status: "Confirmed",
+        payment: { method: "Online", status: "Paid", amount: numericFee },
+        paidAt: new Date(),
+      });
 
-  return res.status(201).json({
-    success: true,
-    appointment: created,
-    checkoutUrl: null,
-    message: "Payment Successful (Demo Mode)",
-  });
-}
+      return res.status(201).json({
+        success: true,
+        appointment: created,
+        checkoutUrl: null,
+        message: "Payment Successful (Demo Mode)",
+      });
+    }
 
     const frontBase = buildFrontendBase(req);
     if (!frontBase) {
-      return res.status(500).json({ success: false, message: "Frontend URL could not be determined. Set FRONTEND_URL or send Origin header." });
+      return res.status(500).json({
+        success: false,
+        message: "Frontend URL could not be determined.",
+      });
     }
 
     const successUrl = `${frontBase}/appointment/success?session_id={CHECKOUT_SESSION_ID}`;
@@ -282,7 +300,7 @@ export const createAppointment = async (req, res) => {
           {
             price_data: {
               currency: "inr",
-              product_data: { name: `Appointment - ${String(patientName).slice(0, 40)}` },
+              product_data: { name: `Appointment - ${patientName}` },
               unit_amount: Math.round(numericFee * 100),
             },
             quantity: 1,
@@ -290,39 +308,27 @@ export const createAppointment = async (req, res) => {
         ],
         success_url: successUrl,
         cancel_url: cancelUrl,
-        metadata: {
-          doctorId: String(doctorId),
-          doctorName: doctorName || "",
-          speciality: speciality || "",
-          patientName: base.patientName,
-          mobile: base.mobile,
-          clerkUserId: clerkUserId || "",
-        },
       });
-    } catch (stripeErr) {
-      console.error("Stripe create session error:", stripeErr);
-      const message = stripeErr?.raw?.message || stripeErr?.message || "Stripe error";
-      return res.status(502).json({ success: false, message: `Payment provider error: ${message}` });
+    } catch (err) {
+      return res.status(502).json({ success: false, message: "Stripe error" });
     }
 
-    try {
-      const created = await Appointment.create({
-        ...base,
-        sessionId: session.id,
-        payment: { ...base.payment, providerId: session.payment_intent || session.paymentIntent || null },
-        status: "Pending",
-      });
-      return res.status(201).json({ success: true, appointment: created, checkoutUrl: session.url || null });
-    } catch (dbErr) {
-      console.error("DB error saving appointment after stripe session:", dbErr);
-      return res.status(500).json({ success: false, message: "Failed to create appointment record" });
-    }
+    const created = await Appointment.create({
+      ...base,
+      sessionId: session.id,
+    });
+
+    return res.status(201).json({
+      success: true,
+      appointment: created,
+      checkoutUrl: session.url,
+    });
+
   } catch (err) {
-    console.error("createAppointment unexpected:", err);
+    console.error("createAppointment:", err);
     return res.status(500).json({ success: false, message: "Server error" });
   }
 };
-
 /* ---------------- confirm payment ---------------- */
 
 export const confirmPayment = async (req, res) => {

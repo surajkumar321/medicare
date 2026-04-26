@@ -76,6 +76,7 @@ const appointmentSchema = new mongoose.Schema(
    
 
     sessionId: { type: String, default: null, index: true },
+    videoSessionId: { type: String, default: null },
 
     paidAt: { type: Date, default: null },
   },
