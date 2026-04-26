@@ -563,7 +563,7 @@ export default function AppointmentPage() {
               {/* ✅ JOIN CALL BUTTON ADD */}
               <button
                 // ✅ NEW
-                onClick={() => handleJoin(item.videoSessionId || item._id)}
+                onClick={() => handleJoin(item.videoSessionId || item.id)}
                 style={{
                   marginTop: "10px",
                   padding: "8px 12px",
