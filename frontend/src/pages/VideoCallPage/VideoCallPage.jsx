@@ -10,7 +10,7 @@ export default function VideoCallPage() {
 
     const domain = "meet.jit.si";
 
-    // ✅ role detect
+    // 🔍 role detect
     const params = new URLSearchParams(location.search);
     const role = params.get("role");
 
@@ -23,14 +23,19 @@ export default function VideoCallPage() {
       parentNode: document.getElementById("jitsi-container"),
 
       userInfo: {
-        displayName: isDoctor ? "Doctor" : "Patient",
+        displayName: isDoctor ? "Doctor 👨‍⚕️" : "Patient 👤",
       },
 
       configOverwrite: {
         prejoinPageEnabled: false,
         enableWelcomePage: false,
+
+        // 🎤 mic/video control
         startWithAudioMuted: !isDoctor,
         startWithVideoMuted: !isDoctor,
+
+        // 🔥 CRITICAL FIX
+        enableLobby: false,
       },
 
       interfaceConfigOverwrite: {
@@ -40,7 +45,24 @@ export default function VideoCallPage() {
 
     const api = new window.JitsiMeetExternalAPI(domain, options);
 
-    return () => api.dispose();
+    // 🔥 FORCE DOCTOR AS HOST
+    api.addEventListener("videoConferenceJoined", () => {
+      console.log("Joined room:", roomId);
+
+      if (isDoctor) {
+        console.log("Doctor joined → disabling lobby");
+        api.executeCommand("toggleLobby", false);
+      }
+    });
+
+    // optional debug
+    api.addEventListener("participantJoined", (p) => {
+      console.log("Participant joined:", p);
+    });
+
+    return () => {
+      api.dispose();
+    };
   }, [roomId, location]);
 
   return (

@@ -178,8 +178,8 @@ function StatusSelect({ appointment, onChange }) {
         value={appointment.status}
         onChange={(e) => onChange(e.target.value)}
         className={`${listPageStyles.statusSelect} ${terminal
-            ? listPageStyles.statusSelectDisabled
-            : listPageStyles.statusSelectEnabled
+          ? listPageStyles.statusSelectDisabled
+          : listPageStyles.statusSelectEnabled
           }`}
         title="After reschedule you can mark Completed or Cancelled"
       >
@@ -205,8 +205,8 @@ function StatusSelect({ appointment, onChange }) {
       onChange={(e) => onChange(e.target.value)}
       disabled={terminal}
       className={`${listPageStyles.statusSelect} ${terminal
-          ? listPageStyles.statusSelectDisabled
-          : listPageStyles.statusSelectEnabled
+        ? listPageStyles.statusSelectDisabled
+        : listPageStyles.statusSelectEnabled
         }`}
       title={terminal ? "Status cannot be changed" : "Change status"}
     >
@@ -274,8 +274,8 @@ function RescheduleButton({ appointment, onReschedule }) {
               terminal ? "Cannot reschedule completed/cancelled" : "Reschedule"
             }
             className={`${listPageStyles.rescheduleButton} ${terminal
-                ? listPageStyles.rescheduleButtonDisabled
-                : listPageStyles.rescheduleButtonEnabled
+              ? listPageStyles.rescheduleButtonDisabled
+              : listPageStyles.rescheduleButtonEnabled
               }`}
           >
             Reschedule
@@ -613,7 +613,7 @@ export default function ListPage() {
                     console.log("Doctor starting:", a.raw.videoSessionId);
 
                     window.open(
-                      `https://meet.jit.si/${a.raw.videoSessionId}`,
+                      `/video-call/${a.raw.videoSessionId}?role=doctor`,
                       "_blank"
                     );
                   }}
