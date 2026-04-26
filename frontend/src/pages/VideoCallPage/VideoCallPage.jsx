@@ -8,19 +8,25 @@ export default function VideoCallPage() {
   useEffect(() => {
     if (!roomId) return;
 
+    // 🔥 IMPORTANT: check script loaded
+    if (!window.JitsiMeetExternalAPI) {
+      alert("Jitsi not loaded");
+      return;
+    }
+
     const domain = "meet.jit.si";
 
-    // 🔍 role detect
     const params = new URLSearchParams(location.search);
     const role = params.get("role");
-
     const isDoctor = role === "doctor";
 
-    const options = {
+    const container = document.getElementById("jitsi-container");
+
+    const api = new window.JitsiMeetExternalAPI(domain, {
       roomName: roomId,
+      parentNode: container,
       width: "100%",
       height: "100%",
-      parentNode: document.getElementById("jitsi-container"),
 
       userInfo: {
         displayName: isDoctor ? "Doctor 👨‍⚕️" : "Patient 👤",
@@ -30,39 +36,30 @@ export default function VideoCallPage() {
         prejoinPageEnabled: false,
         enableWelcomePage: false,
 
-        // 🎤 mic/video control
-        startWithAudioMuted: !isDoctor,
-        startWithVideoMuted: !isDoctor,
+        startWithAudioMuted: false,
+        startWithVideoMuted: false,
 
-        // 🔥 CRITICAL FIX
         enableLobby: false,
       },
 
       interfaceConfigOverwrite: {
         DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
       },
-    };
+    });
 
-    const api = new window.JitsiMeetExternalAPI(domain, options);
-
-    // 🔥 FORCE DOCTOR AS HOST
+    // 🔥 FORCE UNMUTE AFTER JOIN (VERY IMPORTANT)
     api.addEventListener("videoConferenceJoined", () => {
-      console.log("Joined room:", roomId);
+      console.log("Joined:", roomId);
+
+      api.executeCommand("toggleAudio");
+      api.executeCommand("toggleVideo");
 
       if (isDoctor) {
-        console.log("Doctor joined → disabling lobby");
         api.executeCommand("toggleLobby", false);
       }
     });
 
-    // optional debug
-    api.addEventListener("participantJoined", (p) => {
-      console.log("Participant joined:", p);
-    });
-
-    return () => {
-      api.dispose();
-    };
+    return () => api.dispose();
   }, [roomId, location]);
 
   return (
