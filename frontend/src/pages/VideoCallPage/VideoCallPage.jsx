@@ -1,13 +1,20 @@
 import React, { useEffect } from "react";
-import { useParams } from "react-router-dom";
+import { useParams, useLocation } from "react-router-dom";
 
 export default function VideoCallPage() {
   const { roomId } = useParams();
+  const location = useLocation();
 
   useEffect(() => {
     if (!roomId) return;
 
     const domain = "meet.jit.si";
+
+    // ✅ role detect
+    const params = new URLSearchParams(location.search);
+    const role = params.get("role");
+
+    const isDoctor = role === "doctor";
 
     const options = {
       roomName: roomId,
@@ -16,18 +23,16 @@ export default function VideoCallPage() {
       parentNode: document.getElementById("jitsi-container"),
 
       userInfo: {
-        displayName: "User",
+        displayName: isDoctor ? "Doctor" : "Patient",
       },
 
-      // 🔥 MAIN FIX
       configOverwrite: {
         prejoinPageEnabled: false,
         enableWelcomePage: false,
-        startWithAudioMuted: true,
-        startWithVideoMuted: true,
+        startWithAudioMuted: !isDoctor,
+        startWithVideoMuted: !isDoctor,
       },
 
-      // 🔥 IMPORTANT (lobby disable)
       interfaceConfigOverwrite: {
         DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
       },
@@ -36,7 +41,7 @@ export default function VideoCallPage() {
     const api = new window.JitsiMeetExternalAPI(domain, options);
 
     return () => api.dispose();
-  }, [roomId]);
+  }, [roomId, location]);
 
   return (
     <div style={{ height: "100vh", width: "100%" }}>
