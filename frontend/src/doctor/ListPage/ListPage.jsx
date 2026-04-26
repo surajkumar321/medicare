@@ -108,9 +108,9 @@ function normalizeAppointment(a) {
     (a.slot && a.slot.time) ||
     (a.hour != null
       ? `${String(a.hour).padStart(2, "0")}:${String(a.minute || 0).padStart(
-          2,
-          "0",
-        )}`
+        2,
+        "0",
+      )}`
       : "");
   const time = to24HourFromMaybe12(rawTime);
   const status = backendToFrontendStatus(
@@ -177,11 +177,10 @@ function StatusSelect({ appointment, onChange }) {
       <select
         value={appointment.status}
         onChange={(e) => onChange(e.target.value)}
-        className={`${listPageStyles.statusSelect} ${
-          terminal
+        className={`${listPageStyles.statusSelect} ${terminal
             ? listPageStyles.statusSelectDisabled
             : listPageStyles.statusSelectEnabled
-        }`}
+          }`}
         title="After reschedule you can mark Completed or Cancelled"
       >
         <option value="rescheduled" disabled>
@@ -205,11 +204,10 @@ function StatusSelect({ appointment, onChange }) {
       value={appointment.status}
       onChange={(e) => onChange(e.target.value)}
       disabled={terminal}
-      className={`${listPageStyles.statusSelect} ${
-        terminal
+      className={`${listPageStyles.statusSelect} ${terminal
           ? listPageStyles.statusSelectDisabled
           : listPageStyles.statusSelectEnabled
-      }`}
+        }`}
       title={terminal ? "Status cannot be changed" : "Change status"}
     >
       {options.map((opt) => (
@@ -275,11 +273,10 @@ function RescheduleButton({ appointment, onReschedule }) {
             title={
               terminal ? "Cannot reschedule completed/cancelled" : "Reschedule"
             }
-            className={`${listPageStyles.rescheduleButton} ${
-              terminal
+            className={`${listPageStyles.rescheduleButton} ${terminal
                 ? listPageStyles.rescheduleButtonDisabled
                 : listPageStyles.rescheduleButtonEnabled
-            }`}
+              }`}
           >
             Reschedule
           </button>
@@ -394,11 +391,11 @@ export default function ListPage() {
         prev.map((p) =>
           p.id === id
             ? normalizeAppointment(updated) || {
-                ...p,
-                status: backendToFrontendStatus(
-                  updated.status || backendStatus,
-                ),
-              }
+              ...p,
+              status: backendToFrontendStatus(
+                updated.status || backendStatus,
+              ),
+            }
             : p,
         ),
       );
@@ -445,13 +442,13 @@ export default function ListPage() {
         prev.map((p) =>
           p.id === id
             ? normalizeAppointment(updated) || {
-                ...p,
-                date: newDate,
-                time: newTime24,
-                status: backendToFrontendStatus(
-                  updated.status || "Rescheduled",
-                ),
-              }
+              ...p,
+              date: newDate,
+              time: newTime24,
+              status: backendToFrontendStatus(
+                updated.status || "Rescheduled",
+              ),
+            }
             : p,
         ),
       );
@@ -604,6 +601,35 @@ export default function ListPage() {
                     />
                   </div>
                 </div>
+
+                {/* ✅ START CALL BUTTON */}
+                <button
+                  onClick={() => {
+                    if (!a.raw?.videoSessionId) {
+                      alert("Room not ready");
+                      return;
+                    }
+
+                    console.log("Doctor starting:", a.raw.videoSessionId);
+
+                    window.open(
+                      `https://meet.jit.si/${a.raw.videoSessionId}`,
+                      "_blank"
+                    );
+                  }}
+                  style={{
+                    padding: "8px",
+                    background: "#4CAF50",
+                    color: "#fff",
+                    border: "none",
+                    borderRadius: "6px",
+                    cursor: "pointer",
+                    width: "100%",
+                    marginBottom: "10px",
+                  }}
+                >
+                  Start Call
+                </button>
 
                 <div className={listPageStyles.rescheduleContainer}>
                   <RescheduleButton
