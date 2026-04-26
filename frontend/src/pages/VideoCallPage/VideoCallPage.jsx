@@ -14,12 +14,28 @@ export default function VideoCallPage() {
       width: "100%",
       height: "100%",
       parentNode: document.getElementById("jitsi-container"),
+
       userInfo: {
         displayName: "User",
       },
+
+      // 🔥 MAIN FIX
+      configOverwrite: {
+        prejoinPageEnabled: false,
+        enableWelcomePage: false,
+        startWithAudioMuted: true,
+        startWithVideoMuted: true,
+      },
+
+      // 🔥 IMPORTANT (lobby disable)
+      interfaceConfigOverwrite: {
+        DISABLE_JOIN_LEAVE_NOTIFICATIONS: true,
+      },
     };
 
-    new window.JitsiMeetExternalAPI(domain, options);
+    const api = new window.JitsiMeetExternalAPI(domain, options);
+
+    return () => api.dispose();
   }, [roomId]);
 
   return (
