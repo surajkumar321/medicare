@@ -440,7 +440,7 @@ export default function AppointmentPage() {
           rescheduledTo,
 
           // ✅ ADD ONLY THIS
-          sessionId: a.sessionId,
+          videoSessionId: a.videoSessionId,
         };
       })
       .map((x) => ({ ...x, status: computeStatus(x) }));
@@ -493,7 +493,7 @@ export default function AppointmentPage() {
           rescheduledTo,
 
           // ✅ ADD ONLY THIS
-          sessionId: s.sessionId,
+         videoSessionId: s.videoSessionId,
         };
       })
       .map((x) => ({ ...x, status: computeStatus(x) }));
