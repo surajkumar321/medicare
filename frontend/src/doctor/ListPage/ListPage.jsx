@@ -613,7 +613,7 @@ export default function ListPage() {
                     console.log("Doctor starting:", a.raw.videoSessionId);
 
                     window.open(
-                      `/video-call/${a.raw.videoSessionId}?role=doctor`,
+                      `https://meet.jit.si/${a.raw.videoSessionId}`,
                       "_blank"
                     );
                   }}

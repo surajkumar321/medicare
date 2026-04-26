@@ -166,7 +166,7 @@ export default function AppointmentPage() {
 
   console.log("Joining room:", roomId);
 
-  navigate(`/video-call/${roomId}?role=patient`);
+  window.open(`https://meet.jit.si/${roomId}`, "_blank");
 };
   // ✅ ADD END
 
