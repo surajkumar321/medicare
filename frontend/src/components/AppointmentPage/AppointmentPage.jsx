@@ -357,6 +357,11 @@ export default function AppointmentPage() {
     loadServiceAppointments,
   ]);
 
+  // ✅ DEBUG
+  useEffect(() => {
+    console.log("API DATA:", doctorAppts);
+  }, [doctorAppts]);
+
   /* -------------------- Normalization for UI -------------------- */
   function normalizeRescheduled(rt) {
     if (!rt) return null;
@@ -493,7 +498,7 @@ export default function AppointmentPage() {
           rescheduledTo,
 
           // ✅ ADD ONLY THIS
-         videoSessionId: s.videoSessionId,
+          videoSessionId: s.videoSessionId,
         };
       })
       .map((x) => ({ ...x, status: computeStatus(x) }));
