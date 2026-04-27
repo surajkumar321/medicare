@@ -611,7 +611,7 @@ export default function ListPage() {
                     }
 
                     console.log("Doctor starting:", a.raw.videoSessionId);
-                    navigate(`/video-call/${a.raw.videoSessionId}?role=doctor`);
+                    window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}`;
 
                   }}
                   style={{
