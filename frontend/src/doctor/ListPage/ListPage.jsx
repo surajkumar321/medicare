@@ -611,7 +611,8 @@ export default function ListPage() {
                     }
 
                     console.log("Doctor room:", a.raw.videoSessionId);
-                    window.location.href = `https://meet.jit.si/medicare-${roomId}`;
+
+    window.location.href = `https://meet.jit.si/medicare-${a.raw.videoSessionId}`;
                   }}
                   style={{
                     padding: "8px",
