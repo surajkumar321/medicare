@@ -612,7 +612,10 @@ export default function ListPage() {
 
                     console.log("Doctor starting:", a.raw.videoSessionId);
 
-                   window.open(`https://meet.jit.si/${roomId}`, "_blank");
+                    window.open(
+                      `https://meet.jit.si/${a.raw.videoSessionId}`,
+                      "_blank"
+                    );
                   }}
                   style={{
                     padding: "8px",
