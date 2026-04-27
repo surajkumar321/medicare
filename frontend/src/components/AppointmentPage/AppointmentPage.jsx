@@ -164,9 +164,10 @@ export default function AppointmentPage() {
     return;
   }
 
-  console.log("Joining room:", roomId);
+  
+  console.log("Doctor starting:", a.raw.videoSessionId);
 
-  window.location.href = `https://meet.jit.si/${item.videoSessionId}`;
+  window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}`;
 };
   // ✅ ADD END
 
