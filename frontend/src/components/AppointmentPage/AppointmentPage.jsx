@@ -161,9 +161,9 @@ export default function AppointmentPage() {
     return;
   }
 
-  console.log("Joining room:", roomId);
+  console.log("Patient room:", item.videoSessionId);
 
-  window.location.href = `https://meet.jit.si/${roomId}`;
+  window.location.href = `https://meet.jit.si/medicare-${roomId}`;
 };
   // ✅ ADD END
 

@@ -610,9 +610,8 @@ export default function ListPage() {
                       return;
                     }
 
-                    console.log("Doctor starting:", a.raw.videoSessionId);
-                    window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}`;
-
+                    console.log("Doctor room:", a.raw.videoSessionId);
+                    window.location.href = `https://meet.jit.si/medicare-${roomId}`;
                   }}
                   style={{
                     padding: "8px",
