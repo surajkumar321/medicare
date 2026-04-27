@@ -166,7 +166,7 @@ export default function AppointmentPage() {
 
   console.log("Joining room:", roomId);
 
-  window.location.href = `https://meet.jit.si/${roomId}`;
+  window.location.href = `https://meet.jit.si/${roomId}#config.enableLobby=false`;
 };
   // ✅ ADD END
 

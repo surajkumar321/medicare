@@ -612,7 +612,7 @@ export default function ListPage() {
 
                     console.log("Doctor starting:", a.raw.videoSessionId);
 
-                    window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}`;
+                    window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}#config.enableLobby=false`;
                   }}
                   style={{
                     padding: "8px",
