@@ -166,7 +166,7 @@ export default function AppointmentPage() {
 
   console.log("Joining room:", roomId);
 
-  navigate(`/video-call/${roomId}?role=patient`);
+  navigate(`/video-call/${item.videoSessionId}?role=patient`);
 };
   // ✅ ADD END
 
