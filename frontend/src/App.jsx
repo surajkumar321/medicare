@@ -12,7 +12,7 @@ import DoctorDetail from "./pages/DoctorDetail/DoctorDetail";
 import ServiceDetailPage from "./pages/ServiceDetailPage/ServiceDetailPage";
 import Appointments from "./pages/Appointments/Appointments";
 import Login from "./pages/Login/Login";
-import VideoCallPage from "./pages/VideoCallPage/VideoCallPage";
+
 
 // Doctor Admin
 import DHome from "./pages/DHome/DHome";
@@ -83,7 +83,7 @@ const App = () => {
 
      <div className="pt-20 overflow-x-hidden bg-white text-gray-900">
         <Routes>
-          <Route path="/video-call/:roomId" element={<VideoCallPage />} />
+          
           {/* Public */}
           <Route path="/" element={<Home />} />
           <Route path="/doctors" element={<Doctors />} />
