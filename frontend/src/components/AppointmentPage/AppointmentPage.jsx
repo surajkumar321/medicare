@@ -11,7 +11,6 @@ import {
   Bell,
 } from "lucide-react";
 import { useAuth, useUser } from "@clerk/clerk-react";
-import { useNavigate } from "react-router-dom";
 import {
   appointmentPageStyles,
   cardStyles,
@@ -156,18 +155,15 @@ export default function AppointmentPage() {
   const { user } = useUser();
 
   // ✅ ADD START
-  const navigate = useNavigate();
-
   const handleJoin = (roomId) => {
   if (!roomId) {
     toast.error("Room not found");
     return;
   }
 
-  
-  console.log("Doctor starting:", a.raw.videoSessionId);
+  console.log("Joining room:", roomId);
 
-  window.location.href = `https://meet.jit.si/${a.raw.videoSessionId}`;
+  window.location.href = `https://meet.jit.si/${roomId}`;
 };
   // ✅ ADD END
 
