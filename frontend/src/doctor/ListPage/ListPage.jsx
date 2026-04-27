@@ -604,29 +604,24 @@ export default function ListPage() {
 
                 {/* ✅ START CALL BUTTON */}
                 <button
-                  onClick={() => {
-                    if (!a.raw?.videoSessionId) {
-                      alert("Room not ready");
-                      return;
-                    }
+  onClick={() => {
+    console.log("Opening Google Meet...");
 
-                    console.log("Doctor room:", a.raw.videoSessionId);
-
-    window.location.href = `https://meet.jit.si/medicare-${a.raw.videoSessionId}`;
-                  }}
-                  style={{
-                    padding: "8px",
-                    background: "#4CAF50",
-                    color: "#fff",
-                    border: "none",
-                    borderRadius: "6px",
-                    cursor: "pointer",
-                    width: "100%",
-                    marginBottom: "10px",
-                  }}
-                >
-                  Start Call
-                </button>
+    window.location.href = "https://meet.google.com/";
+  }}
+  style={{
+    padding: "8px",
+    background: "#4CAF50",
+    color: "#fff",
+    border: "none",
+    borderRadius: "6px",
+    cursor: "pointer",
+    width: "100%",
+    marginBottom: "10px",
+  }}
+>
+  Start Call
+</button>
 
                 <div className={listPageStyles.rescheduleContainer}>
                   <RescheduleButton

@@ -155,15 +155,10 @@ export default function AppointmentPage() {
   const { user } = useUser();
 
   // ✅ ADD START
-  const handleJoin = (roomId) => {
-  if (!roomId) {
-    toast.error("Room not found");
-    return;
-  }
+  const handleJoin = () => {
+  console.log("Opening Google Meet...");
 
-  console.log("Joining room:", roomId);
-
-  window.location.href = `https://meet.jit.si/medicare-${roomId}`;
+  window.location.href = "https://meet.google.com/";
 };
   // ✅ ADD END
 
@@ -561,7 +556,7 @@ export default function AppointmentPage() {
               {/* ✅ JOIN CALL BUTTON ADD */}
               <button
                 // ✅ NEW
-                onClick={() => handleJoin(item.videoSessionId)}
+                onClick={handleJoin}
                 style={{
                   marginTop: "10px",
                   padding: "8px 12px",
